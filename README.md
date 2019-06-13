@@ -1,2 +1,12 @@
 # tinyurl
-This project is my first lesson in Design System program
+This project covers cases with shortening topics.
+
+# Architecture:
+[] Distribution system.
+[] Cache service.
+[] Load balancer.
+
+# TODOS:
+[] Shorten link
+[] Zookeeper
+[] Distrib
