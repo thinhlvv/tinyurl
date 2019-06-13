@@ -3,16 +3,16 @@
 This project covers cases with shortening topics.
 
 # Architecture:
-[ ] Distribution system.
+- [ ] Distribution system.
 
-[ ] Cache service.
+- [ ] Cache service.
 
-[ ] Load balancer.
+- [ ] Load balancer.
 
 # TODOS:
 
-[ ] Shorten link
+- [ ] Shorten link
 
-[ ] Zookeeper
+- [ ] Zookeeper
 
-[ ] Distrib
+- [ ] Distrib
