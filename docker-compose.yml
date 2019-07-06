@@ -1,0 +1,32 @@
+version: '2'
+services:
+
+    api-gateway:
+      image: api-gateway:latest
+      ports:
+          - "1323:1323"
+      links:
+          - postgres
+      restart: always
+
+    frontend:
+      image: frontend:latest
+      ports:
+        - "8080:8080" 
+
+    postgres:
+        image: postgres:9.6
+        ports:
+            - "15432:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: test
+            POSTGRES_DATA: /var/lib/postgresql/data
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+
+volumes:
+    postgres-data:
+        external: false
+
