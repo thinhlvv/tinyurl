@@ -1,15 +1,21 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
+	"github.com/thinhlvv/tinyurl/backend/config"
+	"github.com/thinhlvv/tinyurl/backend/internal/service"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 func main() {
+	cfgPath := kingpin.Flag("config", "Path to config file").Short('c').Default().String()
+	kingpin.Parse()
+	cfg := config.MustLoad(*cfgPath)
+
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	service := service.New()
+
+	e.POST("/shorten-link", service.ShortenLink())
+
+	e.Logger.Fatal(e.Start(cfg.HTTP.ConnectionURL()))
 }
