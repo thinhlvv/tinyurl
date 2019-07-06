@@ -1,11 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Form} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 class App extends React.Component {
-  constructor() {
-    super();
-  }
 
   renderForm() {
     return <InputForm />;
@@ -17,11 +17,9 @@ class App extends React.Component {
         <header>
         <script type="text/babel"></script>
         </header>
-        <body>
         <div className="App">
           {this.renderForm()}
         </div>
-        </body>
       </div>
     );
   }
@@ -30,24 +28,31 @@ class App extends React.Component {
 class InputForm extends React.Component{
   constructor(props) {
     super(props);
-    this.status = {value: ''};
-    // this.handleSubmit = this.postLonglinkToServer.bind(this);
+    this.state= {longlink: ''};
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange= this.handleChange.bind(this);
   }
   
-  postLonglinkToServer(event){
-    alert("submitted" + this.status.value); 
-    event.preventDefault();
+  handleSubmit(event){
+    alert("submitted" + this.state.longlink); 
+    event.preventDefault(); // avoid reloading page after submission
+  }
+  handleChange(event){
+    this.setState({longlink:event.target.value});
   }
 
   render(){
     return (
       <center>
-        <form onSubmit={this.postLonglinkToServer}>
-        <label>
-          <input type="text" value={this.status.value} placeholder="Shorten your link"/>
-        </label>
-        <input type="submit" value="Shorten" />
-        </form>
+      <Form 
+        onSubmit={e => this.handleSubmit(e)}
+        style={{ width: '50%' }}
+      >
+        <Form.Group controlId="formBasicEmail">
+          <Form.Control onChange={this.handleChange} type="text" placeholder="Shorten your link" required />
+        </Form.Group>
+        <Button variant="primary" type="submit">Submit</Button>
+      </Form>
       </center>
     );
   }
