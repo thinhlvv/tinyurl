@@ -1,4 +1,4 @@
-module github.com/thinhlvv/tinyurl/backend
+module github.com/thinhlvv/tinyurl/backend/api-gateway
 
 go 1.12
 
