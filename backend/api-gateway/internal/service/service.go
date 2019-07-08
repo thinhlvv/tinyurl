@@ -1,6 +1,9 @@
 package service
 
-import "github.com/labstack/echo"
+import (
+	"github.com/labstack/echo"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
+)
 
 // Service is interface to strict service methods.
 // Why return function instead of error. Easier to change
@@ -11,10 +14,9 @@ type Service interface {
 }
 
 type service struct {
-	// services
-	// repo
+	linkRepo repository.Linker
 }
 
-func New() Service {
-	return &service{}
+func New(linkRepo repository.Linker) Service {
+	return &service{linkRepo: linkRepo}
 }

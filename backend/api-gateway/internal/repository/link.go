@@ -16,16 +16,16 @@ type linkRepo struct {
 	db *sql.DB
 }
 
-func NewLinkrepo(db *sql.DB) *Linker {
+func NewLinkRepo(db *sql.DB) Linker {
 	return &linkRepo{db: db}
 }
 
-func GetByShortLink(shortLink string) (*model.Link, error) {
+func (l *linkRepo) GetByShortLink(shortLink string) (*model.Link, error) {
 	return nil, nil
 }
-func GetByLongLink(longLink string) (*model.Link, error) {
+func (l *linkRepo) GetByLongLink(longLink string) (*model.Link, error) {
 	return nil, nil
 }
-func Create(link model.Link) (*model.Link, error) {
+func (l *linkRepo) Create(link model.Link) (*model.Link, error) {
 	return nil, nil
 }

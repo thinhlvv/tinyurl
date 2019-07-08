@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/labstack/echo"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/service"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
@@ -16,13 +15,14 @@ func main() {
 	cfg := config.MustLoad(*cfgPath)
 
 	// Init db
-	fmt.Println(cfg.Postgres.ConnectionString())
 	db := config.MustInitDB(cfg.Postgres.ConnectionString())
-	fmt.Println(db)
+
+	// Init Repository
+	linkRepo := repository.NewLinkRepo(db)
 
 	// Define handler.
 	e := echo.New()
-	service := service.New()
+	service := service.New(linkRepo)
 
 	e.POST("/shorten-link", service.ShortenLink())
 	e.GET("/:id", service.GetLongLink())
