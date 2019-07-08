@@ -1,18 +1,18 @@
 version: '2'
 services:
 
-    api-gateway:
-      image: api-gateway:latest
-      ports:
-          - "1323:1323"
-      links:
-          - postgres
-      restart: always
+  # api-gateway:
+  # image: api-gateway:latest
+  #   ports:
+  #        - "1323:1323"
+  #    links:
+  #        - postgres
+  #    restart: always
 
-    frontend:
-      image: frontend:latest
-      ports:
-        - "8080:8080" 
+  #  frontend:
+  #    image: frontend:latest
+  #    ports:
+  #      - "8080:8080" 
 
     postgres:
         image: postgres:9.6

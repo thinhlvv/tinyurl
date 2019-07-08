@@ -6,6 +6,8 @@ This project covers cases with shortening URL topics.
 
 - [x] Reactjs
 
+- [x] Echo Golang framework
+
 # Architecture:
 
 - [ ] Distribution system.
@@ -21,3 +23,8 @@ This project covers cases with shortening URL topics.
 - [ ] Zookeeper
 
 - [ ] Distrib
+
+# Get Started
+
+- Run Postgres DB container: `docker-compose up -d`
+

@@ -24,18 +24,22 @@ func (h *HTTP) ConnectionURL() string {
 }
 
 type Postgres struct {
-	Host            string
-	Port            int
-	Username        string
-	Password        string
-	Database        string
-	SSLMode         string
+	Host            string `yaml:"host"`
+	Port            int    `yaml:"port"`
+	Username        string `yaml:"username"`
+	Password        string `yaml:"password"`
+	Database        string `yaml:"database"`
+	SSLMode         string `yaml:"ssl_mode"`
 	Timeout         int
 	Protocol        string
 	GoogleAuthFile  string
 	MaxOpenConn     int
 	MaxIdleConn     int
 	ConnMaxLifeTime int
+}
+
+func (p *Postgres) ConnectionString() string {
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/?sslmode=disable", p.Username, p.Password, p.Host, p.Port)
 }
 
 func DefaultHTTP() *HTTP {

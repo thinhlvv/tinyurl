@@ -2,3 +2,9 @@ http:
   host: "localhost"
   port: "1333"
 
+postgres:
+  host: "localhost"
+  port: 15432
+  username: "postgres"
+  password: "postgres"
+  database: "test"
