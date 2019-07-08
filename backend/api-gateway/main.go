@@ -1,5 +1,8 @@
 package main
 
+// TODO: separate db in struct DB to handle DBWithContext, timeout...
+// TODO: implement migration logic
+
 import (
 	"github.com/labstack/echo"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
