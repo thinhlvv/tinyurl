@@ -11,20 +11,30 @@ type ShortenLinkRequest struct {
 	LongLink string `json:"long_link" form:"long_link"`
 }
 type ShortenLinkResponse struct {
-	ShortLink string `json:"short_link" form:"short_link"`
+	ShortLink string `json:"short_link"`
 }
 
 // ShortenLink ...
 func (ctrl *service) ShortenLink() func(c echo.Context) error {
 	return func(c echo.Context) error {
+		response := ShortenLinkResponse{}
 		// get long link
 		req := ShortenLinkRequest{}
 		if err := c.Bind(&req); err != nil {
-			return err
+			return c.JSON(http.StatusUnprocessableEntity, err)
 		}
 
 		// check long link exist -> return short link
-		// if long link not exist -> hash link and save DB
+		link, err := ctrl.linkRepo.GetByLongLink(req.LongLink)
+		if err != nil {
+			return err
+		}
+		if link != nil {
+			response.ShortLink = link.ShortLink
+			return c.JSON(http.StatusOK, response)
+		}
+
+		// if long link not exist -> hash and create short link then save DB
 		return c.String(http.StatusOK, "ok")
 	}
 }
