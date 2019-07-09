@@ -39,7 +39,7 @@ type Postgres struct {
 }
 
 func (p *Postgres) ConnectionString() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/?sslmode=disable", p.Username, p.Password, p.Host, p.Port)
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", p.Username, p.Password, p.Host, p.Port, p.Database)
 }
 
 func DefaultHTTP() *HTTP {

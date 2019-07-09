@@ -4,6 +4,8 @@ package main
 // TODO: implement migration logic
 
 import (
+	"log"
+
 	"github.com/labstack/echo"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
@@ -19,6 +21,10 @@ func main() {
 
 	// Init db
 	db := config.MustInitDB(cfg.Postgres.ConnectionString())
+	// Migrate
+	if err := config.MustMigrate(db); err != nil {
+		log.Fatal(err)
+	}
 
 	// Init Repository
 	linkRepo := repository.NewLinkRepo(db)
