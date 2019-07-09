@@ -60,13 +60,13 @@ func (l *linkRepo) GetByLongLink(longLink string) (*model.Link, error) {
 						WHERE 
 							long_link = ?`
 
-	res := model.Link{}
+	var res model.Link
 	if err := l.db.QueryRow(query, longLink).Scan(
-		&res.ID,
-		&res.LongLink,
-		&res.ShortLink,
-		&res.Clicks,
-		&res.CreatedAt,
+		res.ID,
+		res.LongLink,
+		res.ShortLink,
+		res.Clicks,
+		res.CreatedAt,
 	); err != nil {
 		return nil, err
 	}

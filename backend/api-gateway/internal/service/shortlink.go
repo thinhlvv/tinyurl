@@ -17,23 +17,29 @@ type ShortenLinkResponse struct {
 // ShortenLink ...
 func (ctrl *service) ShortenLink() func(c echo.Context) error {
 	return func(c echo.Context) error {
-		response := ShortenLinkResponse{}
-		// get long link
+		fmt.Println("Get here")
 		req := ShortenLinkRequest{}
 		if err := c.Bind(&req); err != nil {
 			return c.JSON(http.StatusUnprocessableEntity, err)
 		}
 
+		response := ShortenLinkResponse{}
 		// check long link exist -> return short link
 		link, err := ctrl.linkRepo.GetByLongLink(req.LongLink)
 		if err != nil {
 			return err
 		}
+		fmt.Println(req)
 		if link != nil {
 			response.ShortLink = link.ShortLink
 			return c.JSON(http.StatusOK, response)
 		}
 
+		fmt.Println(c.Request().URL)
+
+		// shortened := utils.EncodeBase()
+		// shortLink :=
+		// shortLink:= fmt.Sprintf("")
 		// if long link not exist -> hash and create short link then save DB
 		return c.String(http.StatusOK, "ok")
 	}
