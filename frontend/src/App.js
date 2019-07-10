@@ -70,7 +70,7 @@ class InputForm extends React.Component {
                           required
                         />
                         <InputGroup.Append>
-                          <Button style={btn} variant="primary" type="submit"><strong>Submit</strong></Button>
+                          <Button className="pl-5 pr-5" style={btn} variant="primary" type="submit">Submit</Button>
                         </InputGroup.Append>
                       </InputGroup>
                     </Form>
