@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Form, Jumbotron } from "react-bootstrap";
-import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import { Container, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 class App extends React.Component {
@@ -24,23 +24,30 @@ class App extends React.Component {
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { longlink: "" };
+    this.state = { longLink: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleSubmit(event) {
-    alert("submitted" + this.state.longlink);
+    // let url = event.target.value;
+    let url = this.state.longLink
+    let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
+    if (!valid) {
+      alert("Invalid url submitted.")
+    } else {
+      alert("Submitted: " + this.state.longLink);
+    }
     event.preventDefault(); // avoid reloading page after submission
   }
   handleChange(event) {
-    this.setState({ longlink: event.target.value });
+    this.setState({ longLink: event.target.value });
   }
 
   render() {
     const btn = {backgroundColor: "#6d9ce8", border: "none"}
     return (
-      <container>
+      <Container>
         <Row className="pl-5 pr-5 pt-5 mt-5">
           <Col>
             <Jumbotron style={{ backgroundColor: "#f9f1f1" }}>
@@ -80,7 +87,7 @@ class InputForm extends React.Component {
             </Jumbotron>
           </Col>
         </Row>
-      </container>
+      </Container>
     );
   }
 }
