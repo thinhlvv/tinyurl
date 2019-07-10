@@ -13,6 +13,14 @@ services:
   #    image: frontend:latest
   #    ports:
   #      - "8080:8080" 
+  
+    zookeeper:
+      container_name: backend_zookeeper_1
+      image: confluentinc/cp-zookeeper
+      ports:
+        - "2181:2181"
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
 
     postgres:
         image: postgres:9.6
