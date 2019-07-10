@@ -38,6 +38,7 @@ class InputForm extends React.Component {
   }
 
   render() {
+    const btn = {backgroundColor: "#6d9ce8", border: "none"}
     return (
       <container>
         <Row className="pl-5 pr-5 pt-5 mt-5">
@@ -69,21 +70,9 @@ class InputForm extends React.Component {
                           required
                         />
                         <InputGroup.Append>
-                          <Button variant="primary" type="submit">Submit</Button>
+                          <Button style={btn} variant="primary" type="submit"><strong>Submit</strong></Button>
                         </InputGroup.Append>
                       </InputGroup>
-
-                      {/* <Form.Group controlId="formBasicEmail">
-                        <Form.Control
-                          onChange={this.handleChange}
-                          type="text"
-                          placeholder="Shorten your link"
-                          required
-                        />
-                      </Form.Group>
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button> */}
                     </Form>
                   </center>
                 </Col>
