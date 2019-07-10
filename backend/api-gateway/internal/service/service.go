@@ -6,11 +6,9 @@ import (
 )
 
 // Service is interface to strict service methods.
-// Why return function instead of error. Easier to change
-// service interface.
 type Service interface {
-	ShortenLink() func(c echo.Context) error
-	GetLongLink() func(c echo.Context) error
+	ShortenLink(c echo.Context) error
+	GetLongLink(c echo.Context) error
 }
 
 type service struct {
