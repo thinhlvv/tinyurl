@@ -1,59 +1,83 @@
-import React from 'react';
-import './App.css';
-import {Form} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
-
+import React from "react";
+import "./App.css";
+import { Form, Jumbotron } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 
 class App extends React.Component {
-
   renderForm() {
     return <InputForm />;
   }
 
-  render(){
+  render() {
     return (
       <div>
         <header>
-        <script type="text/babel"></script>
+          <script type="text/babel" />
         </header>
-        <div className="App">
-          {this.renderForm()}
-        </div>
+        <div className="App">{this.renderForm()}</div>
       </div>
     );
   }
 }
 
-class InputForm extends React.Component{
+class InputForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state= {longlink: ''};
+    this.state = { longlink: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange= this.handleChange.bind(this);
-  }
-  
-  handleSubmit(event){
-    alert("submitted" + this.state.longlink); 
-    event.preventDefault(); // avoid reloading page after submission
-  }
-  handleChange(event){
-    this.setState({longlink:event.target.value});
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  render(){
+  handleSubmit(event) {
+    alert("submitted" + this.state.longlink);
+    event.preventDefault(); // avoid reloading page after submission
+  }
+  handleChange(event) {
+    this.setState({ longlink: event.target.value });
+  }
+
+  render() {
     return (
-      <center>
-      <Form 
-        onSubmit={e => this.handleSubmit(e)}
-        style={{ width: '50%' }}
-      >
-        <Form.Group controlId="formBasicEmail">
-          <Form.Control onChange={this.handleChange} type="text" placeholder="Shorten your link" required />
-        </Form.Group>
-        <Button variant="primary" type="submit">Submit</Button>
-      </Form>
-      </center>
+      <container>
+        <Row className="pl-5 pr-5 pt-5 mt-5">
+          <Col>
+            <Jumbotron
+              style={{ backgroundColor: "#FEFEFE"}}
+            >
+              <Row className="pt-2 pb-3">
+                <Col>
+                  <h1>A smile is the universal welcome.</h1>
+                  <h3><i>Max Eastman</i></h3>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Col>
+                  <center>
+                    <Form
+                      onSubmit={e => this.handleSubmit(e)}
+                      style={{ width: "50%" }}
+                    >
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Control
+                          onChange={this.handleChange}
+                          type="text"
+                          placeholder="Shorten your link"
+                          required
+                        />
+                      </Form.Group>
+                      <Button variant="primary" type="submit">
+                        Submit
+                      </Button>
+                    </Form>
+                  </center>
+                </Col>
+              </Row>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </container>
     );
   }
 }
