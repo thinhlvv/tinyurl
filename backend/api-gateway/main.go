@@ -1,12 +1,12 @@
 package main
 
 // TODO: separate db in struct DB to handle DBWithContext, timeout...
-// TODO: implement migration logic
 
 import (
 	"log"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/service"
@@ -31,10 +31,11 @@ func main() {
 
 	// Define handler.
 	e := echo.New()
+	e.Use(middleware.Logger())
 	service := service.New(linkRepo)
 
-	e.POST("/shorten-link", service.ShortenLink())
-	e.GET("/:id", service.GetLongLink())
+	e.POST("/shorten-link", service.ShortenLink)
+	e.GET("/:id", service.GetLongLink)
 
 	e.Logger.Fatal(e.Start(cfg.HTTP.ConnectionURL()))
 }
