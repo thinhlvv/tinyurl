@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Form, Jumbotron } from "react-bootstrap";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 class App extends React.Component {
@@ -42,16 +42,16 @@ class InputForm extends React.Component {
       <container>
         <Row className="pl-5 pr-5 pt-5 mt-5">
           <Col>
-            <Jumbotron
-              style={{ backgroundColor: "#FEFEFE"}}
-            >
+            <Jumbotron style={{ backgroundColor: "#f9f1f1" }}>
               <Row className="pt-2 pb-3">
                 <Col>
                   <h1>A smile is the universal welcome.</h1>
-                  <h3><i>Max Eastman</i></h3>
+                  <h3>
+                    <i>Max Eastman</i>
+                  </h3>
                 </Col>
               </Row>
-              <br></br>
+              <br />
               <Row>
                 <Col>
                   <center>
@@ -59,7 +59,21 @@ class InputForm extends React.Component {
                       onSubmit={e => this.handleSubmit(e)}
                       style={{ width: "50%" }}
                     >
-                      <Form.Group controlId="formBasicEmail">
+                      <InputGroup className="mb-3">
+                        <FormControl
+                          onChange={this.handleChange}
+                          type="text"
+                          placeholder="Shorten your link"
+                          aria-label="Shorten your link"
+                          aria-describedby="url-input"
+                          required
+                        />
+                        <InputGroup.Append>
+                          <Button variant="primary" type="submit">Submit</Button>
+                        </InputGroup.Append>
+                      </InputGroup>
+
+                      {/* <Form.Group controlId="formBasicEmail">
                         <Form.Control
                           onChange={this.handleChange}
                           type="text"
@@ -69,7 +83,7 @@ class InputForm extends React.Component {
                       </Form.Group>
                       <Button variant="primary" type="submit">
                         Submit
-                      </Button>
+                      </Button> */}
                     </Form>
                   </center>
                 </Col>
