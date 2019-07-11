@@ -37,7 +37,6 @@ class InputForm extends React.Component {
   }
 
   handleSubmit(event) {
-    // let url = event.target.value;
     let url = this.state.longLink;
     let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
     if (!valid) {
@@ -52,7 +51,6 @@ class InputForm extends React.Component {
   }
 
   render() {
-    // const btn = { backgroundColor: "#6d9ce8", border: "none" };
     return (
       <Container>
         <Row className="pt-5 mt-5">
@@ -90,7 +88,6 @@ class InputForm extends React.Component {
                         <Col md={3}>
                           <Button
                             className="btn"
-                            // variant="primary"
                             type="submit"
                             block
                           >
