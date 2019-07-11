@@ -48,7 +48,7 @@ class InputForm extends React.Component {
     const btn = {backgroundColor: "#6d9ce8", border: "none"}
     return (
       <Container>
-        <Row className="pl-5 pr-5 pt-5 mt-5">
+        <Row className="pt-5 mt-5">
           <Col>
             <Jumbotron style={{ backgroundColor: "#f9f1f1" }}>
               <Row className="pt-2 pb-3">
@@ -65,7 +65,7 @@ class InputForm extends React.Component {
                   <center>
                     <Form
                       onSubmit={e => this.handleSubmit(e)}
-                      style={{ width: "50%" }}
+                      style={{ width: "60%" }}
                     >
                       <InputGroup className="mb-3">
                         <FormControl
