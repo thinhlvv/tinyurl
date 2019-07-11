@@ -27,7 +27,18 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.btn {
+  background-color: #5188e0 !important;
+  border: none !important;
+}
+
+.btn:hover {
+  background-color: #2066d6 !important;
+  border: none !important;
 }
