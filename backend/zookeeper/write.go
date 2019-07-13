@@ -15,29 +15,43 @@ func main() {
 	// defer conn.Close()
 
 	var path = "/zk_test_go/child1"
-	// var data = []byte("hello")
-	// var flags int32 = 0
+	var data = []byte("child1")
+	var flags int32 = 0
 	// permission
-	// var acls = zk.WorldACL(zk.PermAll)
+	var acls = zk.WorldACL(zk.PermAll)
 
-	// // create
-	// p, err_create := conn.Create(path, data, flags, acls)
-	// if err_create != nil {
-	// 	fmt.Println(err_create)
-	// 	return
-	// }
-	// fmt.Println("created:", p)
-
-	// get
-	v, s, err := conn.Get(path)
-	if err != nil {
-		fmt.Println("Getting data from root path", err)
+	// create
+	p, err_create := conn.Create(path, data, flags, acls)
+	if err_create != nil {
+		fmt.Println(err_create)
 		return
 	}
+	fmt.Println("created:", p)
 
-	fmt.Printf("value of path[%s]=[%s].\n", path, v)
-	fmt.Printf("state:\n")
-	fmt.Printf("%s\n", ZkStateStringFormat(s))
+	// // get
+	// v, s, err := conn.Get(path)
+	// if err != nil {
+	// 	fmt.Println("Getting data from root path", err)
+	// 	return
+	// }
+
+	// // set
+	// _, err = conn.Set(path, data, s.Cversion)
+	// if err != nil {
+	// 	fmt.Println("Getting data from root path", err)
+	// 	return
+	// }
+
+	// // get
+	// v, s, err = conn.Get(path)
+	// if err != nil {
+	// 	fmt.Println("Getting data from root path", err)
+	// 	return
+	// }
+
+	// fmt.Printf("value of path[%s]=[%s].\n", path, v)
+	// fmt.Printf("state:\n")
+	// fmt.Printf("%s\n", ZkStateStringFormat(s))
 
 	// children, stat, ch, err := c.ChildrenW("/")
 	// if err != nil {
