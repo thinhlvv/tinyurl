@@ -1,7 +1,14 @@
 import React from "react";
 import "./App.css";
 import { Form, Jumbotron } from "react-bootstrap";
-import { Container, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Button
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 class App extends React.Component {
@@ -30,11 +37,10 @@ class InputForm extends React.Component {
   }
 
   handleSubmit(event) {
-    // let url = event.target.value;
-    let url = this.state.longLink
+    let url = this.state.longLink;
     let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
     if (!valid) {
-      alert("Invalid url submitted.")
+      alert("Invalid url submitted.");
     } else {
       alert("Submitted: " + this.state.longLink);
     }
@@ -45,10 +51,9 @@ class InputForm extends React.Component {
   }
 
   render() {
-    const btn = {backgroundColor: "#6d9ce8", border: "none"}
     return (
       <Container>
-        <Row className="pl-5 pr-5 pt-5 mt-5">
+        <Row className="pt-5 mt-5">
           <Col>
             <Jumbotron style={{ backgroundColor: "#f9f1f1" }}>
               <Row className="pt-2 pb-3">
@@ -65,21 +70,31 @@ class InputForm extends React.Component {
                   <center>
                     <Form
                       onSubmit={e => this.handleSubmit(e)}
-                      style={{ width: "50%" }}
+                      style={{ width: "75%" }}
                     >
-                      <InputGroup className="mb-3">
-                        <FormControl
-                          onChange={this.handleChange}
-                          type="text"
-                          placeholder="Shorten your link"
-                          aria-label="Shorten your link"
-                          aria-describedby="url-input"
-                          required
-                        />
-                        <InputGroup.Append>
-                          <Button className="pl-5 pr-5" style={btn} variant="primary" type="submit">Submit</Button>
-                        </InputGroup.Append>
-                      </InputGroup>
+                      <Row>
+                        <Col md={9}>
+                          <InputGroup>
+                            <FormControl
+                              onChange={this.handleChange}
+                              type="text"
+                              placeholder="Shorten your link"
+                              aria-label="Shorten your link"
+                              aria-describedby="url-input"
+                              required
+                            />
+                          </InputGroup>
+                        </Col>
+                        <Col md={3}>
+                          <Button
+                            className="btn"
+                            type="submit"
+                            block
+                          >
+                            Shorten
+                          </Button>
+                        </Col>
+                      </Row>
                     </Form>
                   </center>
                 </Col>
