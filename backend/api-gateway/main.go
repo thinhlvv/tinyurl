@@ -10,6 +10,9 @@ import (
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/service"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/model"
+	"github.com/thinhlvv/tinyurl/backend/common/internalcache"
+	"github.com/thinhlvv/tinyurl/backend/common/zookeeperctl"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -29,10 +32,21 @@ func main() {
 	// Init Repository
 	linkRepo := repository.NewLinkRepo(db)
 
+	// Init internal cache engine
+	cache := internalcache.New()
+	// Init zookeeperctl
+	zookeeperctl := zookeeperctl.New([]string{"localhost:2181"})
+
+	// Define service
+	app := &model.App{
+		InternalCache: cache,
+		Zookeerper:    zookeeperctl,
+	}
+	service := service.New(linkRepo, app)
+
 	// Define handler.
 	e := echo.New()
 	e.Use(middleware.Logger())
-	service := service.New(linkRepo)
 
 	e.POST("/shorten-link", service.ShortenLink)
 	e.GET("/:id", service.GetLongLink)

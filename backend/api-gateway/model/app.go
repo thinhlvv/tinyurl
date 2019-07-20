@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/allegro/bigcache"
+	"github.com/thinhlvv/tinyurl/backend/common/internalcache"
 	"github.com/thinhlvv/tinyurl/backend/common/zookeeperctl"
 )
 
@@ -10,6 +10,5 @@ type App struct {
 	Zookeeper
 }
 
-type InternalCache bigcache.BigCache
-
+type InternalCache internalcache.Engine
 type Zookeeper zookeeperctl.Zookeeper
