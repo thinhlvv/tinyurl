@@ -20,7 +20,7 @@ func New(zookeepers []string) (*zk.Conn, error) {
 	return conn, nil
 }
 
-func (z *Zookeeper) Get(path string) ([]byte, error) {
+func (z *Zookeeper) Read(path string) ([]byte, error) {
 	val, state, err := z.client.Get(path)
 	logZKState(state)
 	return val, err
@@ -42,6 +42,33 @@ func (z *Zookeeper) Write(path string, data []byte) error {
 	logZKState(s)
 
 	return err
+}
+
+func (z *Zookeeper) Create(path string, data []byte) error {
+	var flags int32 = 0
+	var acls = zk.WorldACL(zk.PermAll) // permission
+
+	// create
+	p, err := conn.Create(path, data, flags, acls)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("created:", p)
+
+	logZKState(s)
+
+	return err
+}
+
+func (z *Zookeeper) Delete(path string) error {
+	err := conn.Delete(path, s.Version)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
 }
 
 func logZKState(s *zk.Stat) {

@@ -33,10 +33,15 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 		return c.JSON(http.StatusOK, response)
 	}
 
-	// Ask counter to get next id
-	// shortenedCode := utils.EncodeBase()
+	// Ask cache counter to get order number
+	// Everytime start server need to check order number from zookeeper
+
+	// shortenedCode := utils.EncodeBase(orderNumber)
 	// shortLink:= fmt.Sprintf("%s/%s",c.Request().Host, shortenedCode)
+
 	// if long link not exist -> hash and create short link then save DB
+	// Update order number zookeeper
+	// Update cache order number value
 	return c.String(http.StatusOK, "ok")
 }
 
