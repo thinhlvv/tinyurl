@@ -3,6 +3,8 @@ module github.com/thinhlvv/tinyurl/backend/api-gateway
 go 1.12
 
 require (
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
+	github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4 // indirect
 	github.com/allegro/bigcache v1.2.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/golang-migrate/migrate/v4 v4.4.0
