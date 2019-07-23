@@ -7,12 +7,12 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/internalcache"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/zookeeperctl"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/model"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/service"
-	"github.com/thinhlvv/tinyurl/backend/api-gateway/model"
-	"github.com/thinhlvv/tinyurl/backend/common/internalcache"
-	"github.com/thinhlvv/tinyurl/backend/common/zookeeperctl"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -35,12 +35,15 @@ func main() {
 	// Init internal cache engine
 	cache := internalcache.New()
 	// Init zookeeperctl
-	zookeeperctl := zookeeperctl.New([]string{"localhost:2181"})
+	zookeeperctl, err := zookeeperctl.New([]string{"localhost:2181"})
+	if err != nil {
+		log.Fatal("Can't connect zookeeper:", err)
+	}
 
 	// Define service
 	app := &model.App{
 		InternalCache: cache,
-		Zookeerper:    zookeeperctl,
+		Zookeeper:     zookeeperctl,
 	}
 	service := service.New(linkRepo, app)
 

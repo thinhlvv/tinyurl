@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/labstack/echo"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/model"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/repository"
-	"github.com/thinhlvv/tinyurl/backend/api-gateway/model"
 )
 
 // Service is interface to strict service methods.

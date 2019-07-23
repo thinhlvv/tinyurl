@@ -12,12 +12,12 @@ type Zookeeper struct {
 	client *zk.Conn
 }
 
-func New(zookeepers []string) (*zk.Conn, error) {
+func New(zookeepers []string) (Zookeeper, error) {
 	conn, _, err := zk.Connect(zookeepers, time.Second)
 	if err != nil {
-		return nil, err
+		return Zookeeper{}, err
 	}
-	return conn, nil
+	return Zookeeper{client: conn}, nil
 }
 
 func (z *Zookeeper) Read(path string) ([]byte, error) {
@@ -49,20 +49,24 @@ func (z *Zookeeper) Create(path string, data []byte) error {
 	var acls = zk.WorldACL(zk.PermAll) // permission
 
 	// create
-	p, err := conn.Create(path, data, flags, acls)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	p, err := z.client.Create(path, data, flags, acls)
+
 	fmt.Println("created:", p)
-
-	logZKState(s)
-
 	return err
 }
 
 func (z *Zookeeper) Delete(path string) error {
-	err := conn.Delete(path, s.Version)
+	// exist
+	exist, s, err := z.client.Exists(path)
+	if err != nil {
+		return err
+	}
+
+	if !exist {
+		return errors.New("Path is not existed.")
+	}
+
+	err = z.client.Delete(path, s.Version)
 	if err != nil {
 		fmt.Println(err)
 		return err
