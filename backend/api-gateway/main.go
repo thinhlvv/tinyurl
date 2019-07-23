@@ -7,6 +7,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/counter"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/internalcache"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/zookeeperctl"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/config"
@@ -16,6 +17,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
+// TODO: Put expired time of internalcache to config package
 func main() {
 	// Load config.
 	cfgPath := kingpin.Flag("config", "Path to config file").Short('c').Default().String()
@@ -45,7 +47,14 @@ func main() {
 		InternalCache: cache,
 		Zookeeper:     zookeeperctl,
 	}
-	service := service.New(linkRepo, app)
+
+	// Load counter order
+	counter := counter.New(app)
+	// counter := counter.New(app)
+	// if not exist, call zookeeper
+	// if zookeeper error -> fatal
+
+	service := service.New(linkRepo, counter, app)
 
 	// Define handler.
 	e := echo.New()

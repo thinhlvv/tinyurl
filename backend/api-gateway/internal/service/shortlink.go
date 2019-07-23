@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/utils"
 )
 
 type ShortenLinkRequest struct {
@@ -35,9 +36,11 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 
 	// Ask cache counter to get order number
 	// Everytime start server need to check order number from zookeeper
+	orderNumber := ctrl.counter.GetNumber()
 
-	// shortenedCode := utils.EncodeBase(orderNumber)
-	// shortLink:= fmt.Sprintf("%s/%s",c.Request().Host, shortenedCode)
+	shortenedCode := utils.EncodeBase62(orderNumber)
+	shortLink := fmt.Sprintf("%s/%s", c.Request().Host, shortenedCode)
+	fmt.Println(shortLink)
 
 	// if long link not exist -> hash and create short link then save DB
 	// Update order number zookeeper
