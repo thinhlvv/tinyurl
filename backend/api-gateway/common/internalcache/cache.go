@@ -27,6 +27,10 @@ func (e *Engine) Set(key, value string) error {
 	return e.cache.Set(key, []byte(value))
 }
 
-func (e *Engine) Get(key string) ([]byte, error) {
-	return e.cache.Get(key)
+func (e *Engine) Get(key string) (CacheValueType, error) {
+	bValue, err := e.cache.Get(key)
+	if err != nil {
+		return CacheValueType{}, err
+	}
+	return CacheValueType{value: bValue}, nil
 }

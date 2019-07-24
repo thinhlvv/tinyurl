@@ -50,9 +50,9 @@ func main() {
 
 	// Load counter order
 	counter := counter.New(app)
-	// counter := counter.New(app)
-	// if not exist, call zookeeper
-	// if zookeeper error -> fatal
+	if err = counter.MustInit(); err != nil {
+		log.Fatal("Can't initialize counter", err)
+	}
 
 	service := service.New(linkRepo, counter, app)
 

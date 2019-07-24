@@ -15,6 +15,7 @@ type ShortenLinkResponse struct {
 	ShortLink string `json:"short_link"`
 }
 
+// TODO: add log package
 // ShortenLink ...
 func (ctrl *service) ShortenLink(c echo.Context) error {
 	req := ShortenLinkRequest{}
@@ -36,9 +37,12 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 
 	// Ask cache counter to get order number
 	// Everytime start server need to check order number from zookeeper
-	orderNumber := ctrl.counter.GetNumber()
+	orderNumber, err := ctrl.counter.GetNumber()
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	}
 
-	shortenedCode := utils.EncodeBase62(orderNumber)
+	shortenedCode := utils.EncodeBase62(uint64(orderNumber))
 	shortLink := fmt.Sprintf("%s/%s", c.Request().Host, shortenedCode)
 	fmt.Println(shortLink)
 
