@@ -8,3 +8,5 @@ postgres:
   username: "postgres"
   password: "postgres"
   database: "test"
+
+server_name: "drogon"

@@ -1,6 +1,7 @@
 package main
 
 // TODO: separate db in struct DB to handle DBWithContext, timeout...
+// implement interface for packages in common.
 
 import (
 	"log"
@@ -17,7 +18,6 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-// TODO: Put expired time of internalcache to config package
 func main() {
 	// Load config.
 	cfgPath := kingpin.Flag("config", "Path to config file").Short('c').Default().String()
@@ -46,6 +46,7 @@ func main() {
 	app := &model.App{
 		InternalCache: cache,
 		Zookeeper:     zookeeperctl,
+		Config:        cfg,
 	}
 
 	// Load counter order

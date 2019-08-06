@@ -37,7 +37,7 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 
 	// Ask cache counter to get order number
 	// Everytime start server need to check order number from zookeeper
-	orderNumber, err := ctrl.counter.GetNumber()
+	orderNumber, err := ctrl.counter.GetOrderNumber()
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}

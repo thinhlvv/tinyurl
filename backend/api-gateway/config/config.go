@@ -1,81 +1,38 @@
 package config
 
 import (
-	"fmt"
 	"io/ioutil"
 
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/utils"
 	yaml "gopkg.in/yaml.v2"
 )
 
 // Config ...
 type Config struct {
-	Postgres *Postgres `yaml:"postgres"`
-	HTTP     *HTTP     `yaml:"http"`
-}
-
-// HTTP represents config for serving files over HTTP
-type HTTP struct {
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
-}
-
-func (h *HTTP) ConnectionURL() string {
-	return fmt.Sprintf("%s:%s", h.Host, h.Port)
-}
-
-type Postgres struct {
-	Host            string `yaml:"host"`
-	Port            int    `yaml:"port"`
-	Username        string `yaml:"username"`
-	Password        string `yaml:"password"`
-	Database        string `yaml:"database"`
-	SSLMode         string `yaml:"ssl_mode"`
-	Timeout         int
-	Protocol        string
-	GoogleAuthFile  string
-	MaxOpenConn     int
-	MaxIdleConn     int
-	ConnMaxLifeTime int
-}
-
-func (p *Postgres) ConnectionString() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", p.Username, p.Password, p.Host, p.Port, p.Database)
-}
-
-func DefaultHTTP() *HTTP {
-	return &HTTP{
-		Host: "",
-		Port: "1323",
-	}
-}
-
-// DefaultPostgres returns default Postgres object
-func DefaultPostgres() *Postgres {
-	return &Postgres{
-		Host:            "postgres",
-		Port:            5432,
-		Username:        "postgres",
-		Password:        "postgres",
-		Database:        "test",
-		SSLMode:         "",
-		Timeout:         15,
-		Protocol:        "",
-		GoogleAuthFile:  "",
-		MaxOpenConn:     10,
-		MaxIdleConn:     2,
-		ConnMaxLifeTime: 1800,
-	}
+	Postgres   *Postgres `yaml:"postgres"`
+	HTTP       *HTTP     `yaml:"http"`
+	ServerName string    `yaml:"server_name"` // used for identity in zookeeper
 }
 
 // DefaultConfig ...
 func DefaultConfig() *Config {
 	return &Config{
-		Postgres: DefaultPostgres(),
-		HTTP:     DefaultHTTP(),
+		Postgres:   DefaultPostgres(),
+		HTTP:       DefaultHTTP(),
+		ServerName: utils.RandomString(6),
 	}
 }
 
-// Load ...
+// MustLoad config file path.
+func MustLoad(path string) *Config {
+	cfg, err := Load(path)
+	if err != nil {
+		panic(err)
+	}
+	return cfg
+}
+
+// Load yaml file path.
 func Load(path string) (*Config, error) {
 	if path == "" {
 		return DefaultConfig(), nil
@@ -89,13 +46,4 @@ func Load(path string) (*Config, error) {
 	cfg := &Config{}
 	err = yaml.Unmarshal(data, &cfg)
 	return cfg, err
-}
-
-// MustLoad ...
-func MustLoad(path string) *Config {
-	cfg, err := Load(path)
-	if err != nil {
-		panic(err)
-	}
-	return cfg
 }
