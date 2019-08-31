@@ -8,14 +8,18 @@ import (
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/utils"
 )
 
+// ShortenLinkRequest ...
 type ShortenLinkRequest struct {
 	LongLink string `json:"long_link" form:"long_link"`
 }
+
+// ShortenLinkResponse ...
 type ShortenLinkResponse struct {
 	ShortLink string `json:"short_link"`
 }
 
 // TODO: add log package
+
 // ShortenLink ...
 func (ctrl *service) ShortenLink(c echo.Context) error {
 	req := ShortenLinkRequest{}

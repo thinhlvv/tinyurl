@@ -33,8 +33,9 @@ func (c *Counter) MustInit() error {
 		return nil
 	}
 
+	counterPath := fmt.Sprintf("/counter/%s", c.config.ServerName)
 	// Check zookeeper with server name.
-	value, err := c.zookeeper.Read(fmt.Sprintf("/counter/%s", c.config.ServerName))
+	value, err := c.zookeeper.Read(counterPath)
 	if err == nil {
 		err = c.cache.Set(internalcache.ORDER_NUMBER_KEY, string(value))
 		if err != nil {
@@ -44,6 +45,10 @@ func (c *Counter) MustInit() error {
 	}
 
 	// if not create new one
+	// data:= getthe parent one
+	if err = c.zookeeper.Create(counterPath, data); err != nil {
+		return err
+	}
 
 	// if cache not existed -> check zookeeper
 	// if zookeeper hasnt registered yet -> register and update cache
