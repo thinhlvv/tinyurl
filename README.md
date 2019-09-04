@@ -10,21 +10,20 @@ This project covers cases with shortening URL topics.
 
 # Architecture:
 
-- [ ] Distribution system.
+- [x] Distribution servers.
 
-- [ ] Cache service.
+- [x] Cache service.
 
 - [ ] Load balancer.
 
 # TODOS:
 
-- [ ] Shorten link
+- [x] Shorten link
 
-- [ ] Zookeeper
-
-- [ ] Distrib
+- [x] Zookeeper
 
 # Get Started
 
 - Run Postgres DB container: `docker-compose up -d`
 
+- `make run`
