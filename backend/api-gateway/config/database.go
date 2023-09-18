@@ -11,6 +11,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// MustInitDB inits DB connection
 func MustInitDB(dataSourceName string) *sql.DB {
 	var err error
 	db, err := sql.Open("postgres", dataSourceName)

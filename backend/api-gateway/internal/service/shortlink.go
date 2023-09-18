@@ -2,10 +2,12 @@ package service
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/labstack/echo"
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/common/utils"
+	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/model"
 )
 
 // ShortenLinkRequest ...
@@ -17,8 +19,6 @@ type ShortenLinkRequest struct {
 type ShortenLinkResponse struct {
 	ShortLink string `json:"short_link"`
 }
-
-// TODO: add log package
 
 // ShortenLink ...
 func (ctrl *service) ShortenLink(c echo.Context) error {
@@ -41,19 +41,27 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 
 	// Ask cache counter to get order number
 	// Everytime start server need to check order number from zookeeper
-	orderNumber, err := ctrl.counter.GetOrderNumber()
-	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err.Error())
-	}
+	// orderNumber, err := ctrl.counter.GetOrderNumber()
+	// if err != nil {
+	// 	return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	// }
+	orderNumber := rand.Intn(1000000)
 
 	shortenedCode := utils.EncodeBase62(uint64(orderNumber))
 	shortLink := fmt.Sprintf("%s/%s", c.Request().Host, shortenedCode)
-	fmt.Println(shortLink)
+
+	_, err = ctrl.linkRepo.Create(model.Link{
+		LongLink:  req.LongLink,
+		ShortLink: shortLink,
+	})
+	if err != nil {
+		return c.String(http.StatusUnprocessableEntity, err.Error())
+	}
 
 	// if long link not exist -> hash and create short link then save DB
 	// Update order number zookeeper
 	// Update cache order number value
-	return c.String(http.StatusOK, "ok")
+	return c.String(http.StatusOK, shortLink)
 }
 
 // GetLongLink will redirect shortened link to long link

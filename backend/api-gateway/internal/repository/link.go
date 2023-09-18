@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -66,7 +67,6 @@ func (l *linkRepo) GetByLongLink(longLink string) (*model.Link, error) {
 							link 
 						WHERE 
 							long_link = $1`
-
 	var res model.Link
 	if err := l.db.QueryRow(query, longLink).Scan(
 		&res.ID,
@@ -76,6 +76,7 @@ func (l *linkRepo) GetByLongLink(longLink string) (*model.Link, error) {
 		&res.CreatedAt,
 	); err != nil {
 		if err == sql.ErrNoRows {
+			fmt.Println("there is no record for long link:", longLink)
 			return nil, nil
 		}
 		return nil, err
@@ -86,21 +87,21 @@ func (l *linkRepo) GetByLongLink(longLink string) (*model.Link, error) {
 
 func (l *linkRepo) Create(link model.Link) (*model.Link, error) {
 	query := `
-		INSERT INTO link (long_link, short_link) VALUE($1,$2)
+		INSERT INTO link (long_link, short_link) VALUES ($1,$2)
 	`
 
-	res, err := l.db.Exec(query, link.LongLink, link.ShortLink)
+	_, err := l.db.Exec(query, link.LongLink, link.ShortLink)
 	if err != nil {
 		return nil, err
 	}
 
-	id, err := res.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
+	// id, err := res.LastInsertId()
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return &model.Link{
-		ID:        strconv.Itoa(int(id)),
+		ID:        link.ID,
 		LongLink:  link.LongLink,
 		ShortLink: link.ShortLink,
 		Clicks:    0,
