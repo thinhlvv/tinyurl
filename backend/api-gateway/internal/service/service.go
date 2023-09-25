@@ -16,10 +16,10 @@ type Service interface {
 type service struct {
 	linkRepo repository.Linker
 	app      *model.App
-	counter  *counter.Counter
+	counter  counter.Counter
 }
 
-func New(linkRepo repository.Linker, counter *counter.Counter, app *model.App) Service {
+func New(linkRepo repository.Linker, counter counter.Counter, app *model.App) Service {
 	return &service{
 		linkRepo: linkRepo,
 		counter:  counter,

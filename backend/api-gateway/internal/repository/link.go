@@ -95,11 +95,6 @@ func (l *linkRepo) Create(link model.Link) (*model.Link, error) {
 		return nil, err
 	}
 
-	// id, err := res.LastInsertId()
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	return &model.Link{
 		ID:        link.ID,
 		LongLink:  link.LongLink,

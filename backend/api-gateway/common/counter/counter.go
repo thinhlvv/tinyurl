@@ -9,16 +9,21 @@ import (
 	"github.com/thinhlvv/tinyurl/backend/api-gateway/internal/model"
 )
 
+type Counter interface {
+	GetOrderNumber() (int, error)
+	MustInit() error
+}
+
 // Counter struct holds interfaces module Counter needs.
-type Counter struct {
+type counter struct {
 	cache     internalcache.Engine
 	zookeeper zookeeperctl.Zookeeper
 	config    *config.Config
 }
 
 // New ...
-func New(app *model.App) *Counter {
-	return &Counter{
+func New(app *model.App) Counter {
+	return &counter{
 		cache:     app.InternalCache,
 		zookeeper: app.Zookeeper,
 		config:    app.Config,
@@ -26,7 +31,7 @@ func New(app *model.App) *Counter {
 }
 
 // MustInit ...
-func (c *Counter) MustInit() error {
+func (c *counter) MustInit() error {
 	// // check cache first
 	// _, err := c.GetOrderNumber()
 	// if err == nil {
@@ -57,7 +62,7 @@ func (c *Counter) MustInit() error {
 	return nil
 }
 
-func (c *Counter) GetOrderNumber() (int, error) {
+func (c *counter) GetOrderNumber() (int, error) {
 	cache, err := c.cache.Get(internalcache.ORDER_NUMBER_KEY)
 	if err != nil {
 		fmt.Println("[GetOrderNumber] Error empty order number")

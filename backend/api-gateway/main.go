@@ -49,8 +49,13 @@ func main() {
 		Config:        cfg,
 	}
 
-	// Load counter order
-	counter := counter.New(app)
+	// counter := counter.New(app)
+	// if err = counter.MustInit(); err != nil {
+	// 	log.Fatal("Can't initialize counter", err)
+	// }
+
+	// Load random counter order
+	counter := counter.NewRandom(app)
 	if err = counter.MustInit(); err != nil {
 		log.Fatal("Can't initialize counter", err)
 	}

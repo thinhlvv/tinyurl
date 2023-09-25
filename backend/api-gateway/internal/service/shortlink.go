@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"math/rand"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -17,21 +16,25 @@ type ShortenLinkRequest struct {
 
 // ShortenLinkResponse ...
 type ShortenLinkResponse struct {
-	ShortLink string `json:"short_link"`
+	ShortLink string `json:"short_link,omitempty"`
+	Error     error  `json:"error,omitempty"`
 }
 
 // ShortenLink ...
 func (ctrl *service) ShortenLink(c echo.Context) error {
+	// if long link not exist -> hash and create short link then save DB
+	// Update order number zookeeper
+	// Update cache order number value
+
 	req := ShortenLinkRequest{}
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+		return c.JSON(http.StatusUnprocessableEntity, ShortenLinkResponse{Error: err})
 	}
 
 	response := ShortenLinkResponse{}
-	// check long link exist -> return short link
 	link, err := ctrl.linkRepo.GetByLongLink(req.LongLink)
 	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+		return c.JSON(http.StatusUnprocessableEntity, ShortenLinkResponse{Error: err})
 	}
 
 	if link != nil {
@@ -41,11 +44,11 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 
 	// Ask cache counter to get order number
 	// Everytime start server need to check order number from zookeeper
-	// orderNumber, err := ctrl.counter.GetOrderNumber()
-	// if err != nil {
-	// 	return c.JSON(http.StatusUnprocessableEntity, err.Error())
-	// }
-	orderNumber := rand.Intn(1000000)
+
+	orderNumber, err := ctrl.counter.GetOrderNumber()
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, ShortenLinkResponse{Error: err})
+	}
 
 	shortenedCode := utils.EncodeBase62(uint64(orderNumber))
 	shortLink := fmt.Sprintf("%s/%s", c.Request().Host, shortenedCode)
@@ -55,13 +58,10 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 		ShortLink: shortLink,
 	})
 	if err != nil {
-		return c.String(http.StatusUnprocessableEntity, err.Error())
+		return c.JSON(http.StatusUnprocessableEntity, ShortenLinkResponse{Error: err})
 	}
 
-	// if long link not exist -> hash and create short link then save DB
-	// Update order number zookeeper
-	// Update cache order number value
-	return c.String(http.StatusOK, shortLink)
+	return c.JSON(http.StatusOK, ShortenLinkResponse{ShortLink: shortLink})
 }
 
 // GetLongLink will redirect shortened link to long link
