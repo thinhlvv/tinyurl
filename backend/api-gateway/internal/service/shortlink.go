@@ -32,6 +32,7 @@ func (ctrl *service) ShortenLink(c echo.Context) error {
 	}
 
 	response := ShortenLinkResponse{}
+
 	link, err := ctrl.linkRepo.GetByLongLink(req.LongLink)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, ShortenLinkResponse{Error: err})

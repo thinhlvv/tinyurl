@@ -8,6 +8,14 @@ This project covers cases with shortening URL topics.
 
 - [x] Echo Golang framework
 
+# Patterns
+
+Use random integer to encode62 
+- https://this-is-long-url -> encoder62(randomString) -> https://s.io/this-is-short-url
+
+
+- https://this-is-long-url -> generateInt(counter.generateForEachServer(serverA)) -> encoder62(randomString) -> https://s.io/this-is-short-url
+
 # Architecture:
 
 - [x] Single server
@@ -15,6 +23,8 @@ This project covers cases with shortening URL topics.
 ![Alt text](doc/images/single-server-approach.png)
 
 - [x] Distribution servers.
+
+![Alt text](doc/images/distributed-servers-approach.png)
 
 - [x] Cache service.
 
