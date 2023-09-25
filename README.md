@@ -26,6 +26,10 @@ Use random integer to encode62
 
 ![Alt text](doc/images/distributed-servers-approach.png)
 
+- [x] Zookeeper
+
+![Alt text](doc/images/distributed-servers-advanced.png)
+
 - [x] Cache service.
 
 - [ ] Load balancer.

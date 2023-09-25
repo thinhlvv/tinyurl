@@ -60,7 +60,6 @@ func Test_ShortenLink(t *testing.T) {
 		mockLinkRepo := mock_repository.NewMockLinker(ctrl)
 		tc.doMockLinkRepo(mockLinkRepo)
 
-		// Create a mock for the counter
 		mockCounter := mock_counter.NewMockCounter(ctrl)
 		tc.doMockCounter(mockCounter)
 

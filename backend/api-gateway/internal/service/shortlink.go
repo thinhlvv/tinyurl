@@ -23,7 +23,6 @@ type ShortenLinkResponse struct {
 // ShortenLink ...
 func (ctrl *service) ShortenLink(c echo.Context) error {
 	// if long link not exist -> hash and create short link then save DB
-	// Update order number zookeeper
 	// Update cache order number value
 
 	req := ShortenLinkRequest{}
